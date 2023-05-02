@@ -25,6 +25,25 @@ public class Sprite {
 		papp.image(papp.loadImage(img),  this.x, this.y, (float)this.getwidth(), (float)this.getheight());
 	}
 	
+	//METHODS
+	public boolean isIntersecting(Sprite s) { //check for intersection between two sprites
+		return false;
+		
+	}
+	
+	public boolean isOnPlatform(float x1, float y1, int length) { //check for location on a platform
+		float spriteBottom = (float)(this.y + this.height);
+		//facing left
+		if(this.x >= x1 && this.x <= x1 + length) {
+			if(spriteBottom <= y1) {
+				return true;
+			}
+		}
+		//facing right
+	
+		return false;
+	}
+	
 	// GET METHODS
 	public String getImage() {
 		return img;

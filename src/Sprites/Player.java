@@ -22,20 +22,18 @@ public class Player extends Sprite{
 		this.yVelocity += velocity;
 	}
 	
-	//x = x0 + vt + 0.5at^2
 	public void moveY() { //constantly running
-		if(yVelocity != 0) { //if moving
+		if(yVelocity != 0 || this.gety() != this.getGround()) { //if moving
 			this.sety(this.gety() - yVelocity);
 			gravity();
 		}		
 	}
 	
-	//vx = vx0 + at
 	private void gravity() {
-		if(this.gety() <= this.getGround()) //if on or above ground
+		if(this.gety() + this.getheight() <= this.getGround()) //if on or above ground
 			yVelocity -= GRAVITY_CONSTANT;
-		else if(this.gety() > this.getGround()) {
-			this.sety(this.getGround());
+		else if(this.gety() + this.getheight() > this.getGround()) {
+			this.sety((float)(this.getGround() - this.getheight()));
 			yVelocity = 0;
 		}
 	}

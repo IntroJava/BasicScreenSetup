@@ -1,13 +1,15 @@
 package displays;
+import java.util.ArrayList;
 
+import javafx.scene.shape.Line;
 import java.awt.Color;
-
 import processing.core.PApplet;
 
 public class MainDisplay {
 	private double x, y, width, height;
 	private Color fillColor;
 	private int r,g,b;
+	private ArrayList<Line> platforms;
 	
 	public MainDisplay(double x, double y, double width, double height, Color fillColor) {
 		this.x = x;
@@ -18,16 +20,20 @@ public class MainDisplay {
 		this.r = fillColor.getRed();
 		this.g = fillColor.getGreen();
 		this.b = fillColor.getBlue();
+		
+		platforms = new ArrayList<Line>();
+		platforms.add(new Line(0,100,100,100));
+		platforms.add(new Line(200,200,300,200));
 	}
 	
 	public void draw(PApplet papp){
 		papp.background(r,g,b);
 		
 		papp.strokeWeight(5);
-		papp.line(0, 100, 100, 100);
-		papp.line(150, 150, 250, 150);
-		papp.line(300, 200, 400, 200);
-		papp.line(150, 300, 350, 300);
+		
+		for(Line l: platforms) {
+			this.drawPlatform(papp, (float)l.getStartX(), (float)l.getStartY(), (int)(l.getEndX()-l.getStartX()));
+		}
 		
 	}
 	
@@ -41,6 +47,12 @@ public class MainDisplay {
 		papp.line(x, y, (float)topX, (float)topY);
 	}
 	
+	public void drawPlatform(PApplet papp, float x, float y, int length) {
+		drawLine(papp, x, y, 0, length);
+	}
+	public ArrayList<Line> getPlatforms(){
+		return platforms;
+	}
 	public double getwidth() {
 		return width;
 	}

@@ -1,9 +1,11 @@
 package windows;
 import java.awt.Color;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 
 import Sprites.Player;
 import displays.MainDisplay;
+import javafx.scene.shape.Line;
 import processing.core.PApplet;
 
 public class DrawingSurface extends PApplet{
@@ -15,7 +17,8 @@ public class DrawingSurface extends PApplet{
 	//INITIALIZE ALL VARIABLES
 	public DrawingSurface() {
 		display = new MainDisplay(0, 0, 700, 500, Color.white);
-		player = new Player(100,100,50,50,"sprites/player.png");
+		player = new Player(0,50,50,50,"sprites/player.png");
+		player.setGround(100);
 	}
 	
 	//FRAMES
@@ -27,6 +30,16 @@ public class DrawingSurface extends PApplet{
 	public void draw() {
 		display.draw(this);
 		player.draw(this);
+		
+		//Check intersections
+		ArrayList<Line>  platforms = display.getPlatforms();
+		for(Line l: platforms) {
+			if(player.isOnPlatform((float)(l.getStartX()), (float)(l.getStartY()), (int)(l.getEndX()-l.getStartX()))) {
+				player.setGround((float)l.getStartY());
+				break;
+			}
+			player.setGround(500);
+		}
 		//Y direction moving
 		player.moveY();
 		//X direction moving
