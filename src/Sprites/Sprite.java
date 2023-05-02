@@ -17,13 +17,13 @@ public class Sprite {
 		this.height = height;
 		this.width = width;
 		this.img = img;
-		this.groundLevel = 0;
+		this.groundLevel = 300;
 	}
 
-	public void draw(PApplet papp, MainDisplay d) {
+	//CHANGE THIS DRAW METHOD ON CAYDENS
+	public void draw(PApplet papp) {
 		papp.image(papp.loadImage(img),  this.x, this.y, (float)this.getwidth(), (float)this.getheight());
 	}
-
 	
 	// GET METHODS
 	public String getImage() {
