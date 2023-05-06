@@ -15,7 +15,15 @@ public class Player extends Sprite{
 	}
 	
 	public void moveX(int distance) {
-		this.setx(this.getx()+ distance);
+		if(this.getx() >= 0 && this.getx() + this.getwidth() <= 700) {
+			this.setx(this.getx()+ distance);
+		}
+		else if (this.getx() < 0){
+			this.setx(1);
+		}
+		else {
+			this.setx(650);
+		}
 	}
 	
 	public void jump(int velocity) {
@@ -26,7 +34,8 @@ public class Player extends Sprite{
 		if(yVelocity != 0 || this.gety() != this.getGround()) { //if moving
 			this.sety(this.gety() - yVelocity);
 			gravity();
-		}		
+		}
+
 	}
 	
 	private void gravity() {
@@ -36,5 +45,6 @@ public class Player extends Sprite{
 			this.sety((float)(this.getGround() - this.getheight()));
 			yVelocity = 0;
 		}
+		
 	}
 }

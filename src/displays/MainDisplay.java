@@ -1,6 +1,7 @@
 package displays;
 import java.util.ArrayList;
 
+import Sprites.Enemy;
 import javafx.scene.shape.Line;
 import java.awt.Color;
 import processing.core.PApplet;
@@ -10,6 +11,8 @@ public class MainDisplay {
 	private Color fillColor;
 	private int r,g,b;
 	private ArrayList<Line> platforms;
+	private ArrayList<Enemy> enemies; 
+	
 	
 	public MainDisplay(double x, double y, double width, double height, Color fillColor) {
 		this.x = x;
@@ -24,15 +27,24 @@ public class MainDisplay {
 		platforms = new ArrayList<Line>();
 		platforms.add(new Line(0,100,100,100));
 		platforms.add(new Line(200,200,300,200));
+		platforms.add(new Line(300,350,500,350));
+		
+		enemies = new ArrayList<Enemy>();
+		Enemy enemy1 = new Enemy(100, 100, 50, 50, "sprites/enemy.png");
+		enemies.add(enemy1);
+		
 	}
 	
 	public void draw(PApplet papp){
 		papp.background(r,g,b);
 		
 		papp.strokeWeight(5);
-		
 		for(Line l: platforms) {
 			this.drawPlatform(papp, (float)l.getStartX(), (float)l.getStartY(), (int)(l.getEndX()-l.getStartX()));
+		}
+		
+		for(Enemy e: enemies) {
+			e.draw(papp);
 		}
 		
 	}

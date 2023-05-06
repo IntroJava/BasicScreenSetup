@@ -8,6 +8,7 @@ public class Sprite {
 	private double width, height;
 	private String img;
 	private float groundLevel;
+	private int direction;
 	
 	private static float windowWidth, windowHeight;
 
@@ -18,6 +19,7 @@ public class Sprite {
 		this.width = width;
 		this.img = img;
 		this.groundLevel = 300;
+		this.direction = 1;
 	}
 
 	//CHANGE THIS DRAW METHOD ON CAYDENS
@@ -30,17 +32,22 @@ public class Sprite {
 		return false;
 		
 	}
-	
-	public boolean isOnPlatform(float x1, float y1, int length) { //check for location on a platform
+
+	public boolean isOnPlatform(float x1, float y1, int length) {
 		float spriteBottom = (float)(this.y + this.height);
-		//facing left
+		if(this.x + this.width >= x1 && this.x + this.width <= x1 + length) {
+			if(spriteBottom <= y1) {
+				return true;
+			}
+		}
+
 		if(this.x >= x1 && this.x <= x1 + length) {
 			if(spriteBottom <= y1) {
 				return true;
 			}
 		}
-		//facing right
 	
+
 		return false;
 	}
 	
@@ -103,5 +110,8 @@ public class Sprite {
 	}
 	public void setWindowHeight(float height) {
 		windowHeight = height;
+	}
+	public void setDirection(int d) {
+		direction = d;
 	}
 }
