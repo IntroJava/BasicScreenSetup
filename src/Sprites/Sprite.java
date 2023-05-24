@@ -18,7 +18,7 @@ public class Sprite {
 		this.height = height;
 		this.width = width;
 		this.img = img;
-		this.groundLevel = 300;
+		this.groundLevel = 500;
 		this.direction = 1;
 	}
 

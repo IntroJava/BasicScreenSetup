@@ -3,7 +3,9 @@ import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
+import Sprites.Enemy;
 import Sprites.Player;
+import Sprites.Treasure;
 import displays.MainDisplay;
 import javafx.scene.shape.Line;
 import processing.core.PApplet;
@@ -18,7 +20,7 @@ public class DrawingSurface extends PApplet{
 	//INITIALIZE ALL VARIABLES
 	public DrawingSurface() {
 		display = new MainDisplay(0, 0, 700, 500, Color.white);
-		player = new Player(0,50,50,50,"sprites/player.png");
+		player = new Player(650,450,50,50,"sprites/player.png");
 		player.setGround(100);
 		keyPressed = false;
 		direction = 1;
@@ -50,18 +52,32 @@ public class DrawingSurface extends PApplet{
 		ArrayList<Line>  platforms = display.getPlatforms();
 		for(Line l: platforms) {
 			if(player.isOnPlatform((float)(l.getStartX()), (float)(l.getStartY()), (int)(l.getEndX()-l.getStartX()))) {
-				System.out.println(true);
 				player.setGround((float)l.getStartY());
 				break;
 			}
 			player.setGround(500);
 		}
-		//Y direction moving
-		player.moveY();
-		//X direction moving
-		System.out.println(direction);
-		if(direction == 1 && keyPressed) player.moveX(10);
-		else if(direction == 2 && keyPressed) player.moveX(-10);	
+		boolean isTouching = false;
+		ArrayList<Enemy> enemies = display.getEnemies();
+		for(Enemy e: enemies) {
+			if(player.isIntersecting(e)) {
+				System.out.println("DEAD");
+				isTouching = true;
+			}
+		}
+		Treasure t = display.getTreasure();
+		if(player.isIntersecting(t)) {
+			System.out.println("YOU WIN");
+			isTouching = true;
+		}
+		if(!isTouching) {
+			//Y direction moving
+			player.moveY();
+			//X direction moving
+			if(direction == 1 && keyPressed) player.moveX(10);
+			else if(direction == 2 && keyPressed) player.moveX(-10);
+		}
+			
 		
 	}
 	

@@ -2,6 +2,7 @@ package displays;
 import java.util.ArrayList;
 
 import Sprites.Enemy;
+import Sprites.Treasure;
 import javafx.scene.shape.Line;
 import java.awt.Color;
 import processing.core.PApplet;
@@ -12,6 +13,7 @@ public class MainDisplay {
 	private int r,g,b;
 	private ArrayList<Line> platforms;
 	private ArrayList<Enemy> enemies; 
+	private Treasure treasure;
 	
 	
 	public MainDisplay(double x, double y, double width, double height, Color fillColor) {
@@ -30,25 +32,49 @@ public class MainDisplay {
 		platforms.add(new Line(300,350,500,350));
 		
 		enemies = new ArrayList<Enemy>();
-		Enemy enemy1 = new Enemy(100, 100, 50, 50, "sprites/enemy.png");
+		Enemy enemy1 = new Enemy(200,100, 50, 50, "sprites/enemy.png");
 		enemies.add(enemy1);
 		
+		treasure = new Treasure(0,50,50,50,"sprites/treasure.png");
 	}
 	
 	public void draw(PApplet papp){
 		papp.background(r,g,b);
 		
 		papp.strokeWeight(5);
+		
+		treasure.draw(papp);
+		
 		for(Line l: platforms) {
 			this.drawPlatform(papp, (float)l.getStartX(), (float)l.getStartY(), (int)(l.getEndX()-l.getStartX()));
 		}
 		
+		ArrayList<Line>  platforms = this.getPlatforms();
+		
 		for(Enemy e: enemies) {
-			e.draw(papp);
+			if(!this.stopAll(e.getTouched())) {
+				e.draw(papp);
+				
+				for(Line l: platforms) {
+					if(e.isOnPlatform((float)(l.getStartX()), (float)(l.getStartY()), (int)(l.getEndX()-l.getStartX()))) {
+						e.setGround((float)l.getStartY());
+						break;
+					}
+					e.setGround(500);
+				}
+				e.moveY();
+				e.move(10);
+			}
+			
 		}
 		
 	}
-	
+	public boolean stopAll(boolean isStopping) {
+		if(isStopping) {
+			return true;
+		}
+		return false;
+	}
 	//Alternative line drawing using angles and lengths
 	public void drawLine(PApplet papp, float x, float y, double degree, int length) {
 		double topX, topY;
@@ -85,5 +111,11 @@ public class MainDisplay {
 	}
 	public int getGreen() {
 		return g;
+	}
+	public ArrayList<Enemy> getEnemies(){
+		return enemies;
+	}
+	public Treasure getTreasure() {
+		return treasure;
 	}
 }

@@ -38,6 +38,27 @@ public class Player extends Sprite{
 
 	}
 	
+	public boolean isIntersecting(Enemy s) { //check for intersection between two sprites
+		if(this.getx() <= s.getx() + 50 && this.getx() >= s.getx()) {
+			if(this.gety() + 25 >= s.gety() && this.gety() + 25 <= s.gety() + 50) {
+				s.setTouched(true); 
+				return true;
+			}
+		}
+		return false;
+		
+	}
+	
+	public boolean isIntersecting(Treasure s) { //check for intersection between two sprites
+		if(this.getx() <= s.getx() + 50 && this.getx() >= s.getx()) {
+			if(this.gety() + 25 >= s.gety() && this.gety() + 25 <= s.gety() + 50) {
+				return true;
+			}
+		}
+		return false;
+		
+	}
+	
 	private void gravity() {
 		if(this.gety() + this.getheight() <= this.getGround()) //if on or above ground
 			yVelocity -= GRAVITY_CONSTANT;
